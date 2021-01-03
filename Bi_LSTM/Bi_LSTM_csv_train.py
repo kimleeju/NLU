@@ -19,7 +19,7 @@ W2V = Word2Vec.Word2Vec()
 
 #file = open("../output/train.txt", 'r', encoding='utf-8')
 #line = csv.reader(file)
-file = open("../../output/train.txt",'r', encoding='utf-8')
+file = open("../output/train.txt",'r', encoding='utf-8')
 Line=[]
 
 while True:
@@ -30,7 +30,7 @@ while True:
 token = []
 embeddingmodel = []
 
-f = open("../../output/train_tag.txt",'r',encoding='utf-8')
+f = open("../output/train_tag.txt",'r',encoding='utf-8')
 key=[]
 
 
@@ -85,8 +85,8 @@ learning_rate = 0.001
 lstm_units = 128
 num_class = 785
 training_epochs = 20
-#keep_prob = 0.75
-keep_prob = 0.5
+keep_prob = 0.75
+#keep_prob = 0.5
 
 X = tf.placeholder(tf.float32, shape = [None, Maxseq_length, Vector_size], name = 'X')
 Y = tf.placeholder(tf.float32, shape = [None, num_class], name = 'Y')

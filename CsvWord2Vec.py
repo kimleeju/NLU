@@ -12,7 +12,7 @@ twitter = Okt()
 
 #file = open("../output/train.txt", 'r', encoding='utf-8')
 #line = csv.reader(file)
-file = open("../output/train.txt",'r', encoding='utf-8')
+file = open("output/train.txt",'r', encoding='utf-8')
 Line=[]
 
 while True:
@@ -23,7 +23,7 @@ while True:
 token = []
 embeddingmodel = []
 
-f = open("../output/train_tag.txt",'r',encoding='utf-8')
+f = open("output/train_tag.txt",'r',encoding='utf-8')
 key=[]
 
 #f2 = open("key.txt","w",encoding='utf-8')

@@ -61,7 +61,7 @@ def Grade(sentence):
     f2.write("\n")
 W2V = Word2Vec.Word2Vec()
 
-f = open("../../output/train_tag.txt",'r',encoding='utf-8')
+f = open("../output/train_tag.txt",'r',encoding='utf-8')
 key=[]
 while True:
     nline = f.readline()
@@ -90,7 +90,7 @@ with tf.variable_scope("loss", reuse = tf.AUTO_REUSE):
 prediction = tf.nn.softmax(logits)  # softmax
 saver = tf.train.Saver()
 init = tf.global_variables_initializer()
-modelName = "/home/oslab/nlu/categoryclassifier/Bi_LSTM"
+modelName = "../Bi_LSTM"
 
 f2 = open("result.txt","wt",encoding='utf-8')
 sess = tf.Session()
