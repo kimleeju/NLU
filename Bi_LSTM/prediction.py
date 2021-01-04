@@ -52,8 +52,6 @@ def Grade(sentence):
     idx=0
     Tag = key
     for t, i in zip(Tag, point):
-#        print(t, round(i * 100, 2),"%")
-#        percent = t + str(round(i * 100, 2)) + "%"
         if point[biggest_idx] < i :
             biggest_idx = idx
         idx=idx+1
@@ -101,7 +99,6 @@ saver.restore(sess, modelName)
 cnt=0
 while(cnt < len(CLine)):
     try:
-#        s = input("문장을 입력하세요 : ")		
         s = CLine[cnt]
         cnt=cnt+1
         Grade(s)
