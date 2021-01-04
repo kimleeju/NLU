@@ -1,24 +1,15 @@
-"""
-@author: MsWon
-@editor: lumyjuwon
-"""
-
 import time
 import tensorflow as tf
 import numpy as np
 import Bi_LSTM as Bi_LSTM
 import Word2Vec as Word2Vec
 import csv
-#from konlpy.tag import Twitter
 from konlpy.tag import Okt
 import os
 
-#twitter = Twitter()
 twitter = Okt()
 W2V = Word2Vec.Word2Vec()
 
-#file = open("../output/train.txt", 'r', encoding='utf-8')
-#line = csv.reader(file)
 file = open("../output/train.txt",'r', encoding='utf-8')
 Line=[]
 
@@ -39,10 +30,14 @@ while True:
     if not nline: break
     key.append(nline.rstrip('\n'))
 
+cnt = 0
 for i in Line:
     li = i.split('\t')
-    content = li[1]  # csv에서 뉴스 제목 또는 뉴스 본문 column으로 변경
-    sentence = twitter.pos(li[1], norm=True, stem=True)
+    if len(li) < 2 :
+        li = Line[cnt-1].split('\t')
+        sentence = twitter.pos(li[1], norm=True, stem=True)
+    else:
+        sentence = twitter.pos(li[1], norm=True, stem=True)
     temp = []
     temp_embedding = []
     all_temp = []
@@ -51,42 +46,31 @@ for i in Line:
         temp.append(sentence[k][0] + '/' + sentence[k][1])
     all_temp.append(temp)
     embeddingmodel.append(temp_embedding)
-    category = li[0]  # csv에서 category column으로 변경
-#category_number_dic = {'IT과학': 0, '경제': 1, '정치': 2, '사회': 3, '생활문화': 4}
+    category = li[0]
     category_number_dic = {string:l for l, string in enumerate(key)}
     all_temp.append(category_number_dic.get(category))
     token.append(all_temp)
-print("토큰 처리 완료")
+    cnt = cnt+1
 
-#print(len(key))
-print(category_number_dic)
 tokens = np.array(token)
 print("token 처리 완료")
 print("train_data 최신 버전인지 확인")
 train_X = tokens[:, 0]
 train_Y = tokens[:, 1]
-#print(train_Y)
+
 
 train_Y_ = W2V.One_hot(train_Y)  # Convert to One-hot
 train_X_ = W2V.Convert2Vec("../post.embedding",train_X)  # import word2vec model where you have trained before
-"""
-print(len(train_X))
-print(len(train_X_))
-print("------------",len(train_Y))
-print("###########",len(train_Y_)
-"""
 Batch_size = 16
 Total_size = len(train_X)
 Vector_size = 300
 seq_length = [len(x) for x in train_X]
-#print(max(seq_length))
 Maxseq_length = max(seq_length)
 learning_rate = 0.001
 lstm_units = 128
 num_class = 785
-training_epochs = 20
+training_epochs = 2
 keep_prob = 0.75
-#keep_prob = 0.5
 
 X = tf.placeholder(tf.float32, shape = [None, Maxseq_length, Vector_size], name = 'X')
 Y = tf.placeholder(tf.float32, shape = [None, num_class], name = 'Y')
